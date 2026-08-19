@@ -1175,19 +1175,21 @@ function montarMenu(){
   abas.innerHTML = lista.map(c=>
     `<button class="aba" role="tab" data-cat="${c.id}" aria-selected="${c.id===estado.categoria}">${c.nome}</button>`).join('');
   [...menu.querySelectorAll('button'), ...abas.querySelectorAll('.aba')].forEach(b=>{
-    b.addEventListener('click',()=>irPara(b.dataset.cat));
+    b.addEventListener('click',()=>irPara(b.dataset.cat, false));
   });
 }
 
-function irPara(cat){
+function irPara(cat, scrollar=true){
   estado.categoria = cat;
   estado.busca = '';
   estado.aberto = null;
   document.getElementById('busca').value = '';
   marcarMenu();
   renderCatalogo();
-  const topo = document.getElementById('catalogo');
-  if(window.scrollY > topo.offsetTop) topo.scrollIntoView({block:'start'});
+  if(scrollar){
+    const topo = document.getElementById('catalogo');
+    topo.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
 
 function marcarMenu(){
